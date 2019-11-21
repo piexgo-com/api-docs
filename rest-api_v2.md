@@ -47,7 +47,7 @@ NONE
 **Response:**
 
 Field | Type |  Description
------------- | ------------
+------|------ | ------------
 market | STRING | Name of the currency
 deposit_status | INT | Designates whether (0) or not (1) deposits are disabled
 withdraw_status | INT | Designates whether (0) or not (1) withdrawals are disabled
