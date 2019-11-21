@@ -34,6 +34,58 @@ FAILED:
 {}
 ```
 
+### Assets information
+```
+GET /api/v2/assets
+```
+Returns information about currencies
+
+
+**Parameters:**
+NONE
+
+**Response:**
+
+Field | Type |  Description
+------------ | ------------
+market | STRING | Name of the currency
+deposit_status | INT | Designates whether (0) or not (1) deposits are disabled
+withdraw_status | INT | Designates whether (0) or not (1) withdrawals are disabled
+status | INT | Designates whether (3) or not (1,2) this currency has been delisted from the exchange
+withdraw_fee | DECIMAL | The network fee necessary to withdraw this currency
+withdraw_min | DECIMAL | The minimum number of blocks necessary before a withdraw can be credited to an account
+deposit_min | DECIMAL | The minimum number of blocks necessary before a deposit can be credited to an account
+
+```javascript
+Example:
+
+curl https://api.piexgo.com/api/v2/assets
+
+SUCCESS:
+[{
+    "market":"USDT",
+    "deposit_status":0,
+    "withdraw_status":0,
+    "status":3,  // 3-enable, 1 or 2-disable
+    "withdraw_fee":2,
+    "withdraw_min":10,
+    "deposit_min":1
+},
+......
+{
+    "market":"BTC",
+    "deposit_status":0,
+    "withdraw_status":0,
+    "status":3,
+    "withdraw_fee":0.0005,
+    "withdraw_min":0.01,
+    "deposit_min":0.0001
+}]
+
+FAILED:
+{}
+```
+
 ## Market Data endpoints
 ### Order book
 ```
@@ -201,16 +253,13 @@ FAILED:
 
 ### Symbol ticker
 
-This endpoint retrieves information about recent trading activity for the symbol.
+Retrieves summary information for each currency pair listed on the exchange.
 ```
 GET /api/v2/ticker
 ```
 
 **Parameters:**
-
-Name | Type | Mandatory | Description
------------- | ------------ | ------------ | ------------
-symbol | STRING | NO | A pair like BTC_ETH or all,Default all
+NONE
 
 **Response:**
 Retrieves summary information for each currency pair listed on the exchange. Fields include:
@@ -224,6 +273,7 @@ lowest_ask | DECIMAL | The lowest ask currently available
 base_volume | DECIMAL | Base units traded in the last 24 hours.
 quote_volume | DECIMAL | Quoted units traded in the last 24 hours.
 percent_change | DECIMAL | Price change percentage.
+is_frozen | INT | Price change percentage.
 
 ```javascript
 Example:
@@ -239,7 +289,8 @@ SUCCESS:
         "lowest_ask":1,
         "percent_change":-99.8989898989899,
         "quote_volume":1411528.22,
-        "symbol":"BTC_USDT"
+        "symbol":"BTC_USDT",
+        "is_frozen":0
     },
     ......
 }
